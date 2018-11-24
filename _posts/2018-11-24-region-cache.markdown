@@ -69,29 +69,29 @@ Here is the doc for RegionCache's constructor params, which outlines what option
 
 * `root` (optional str): Default 'root' The key to use for the base region.
 * `serializer` (optional pickle-like object): Default = pickle. Flask/Celery config is
-    REGION_CACHE_SERIALIZER.
+    `REGION_CACHE_SERIALIZER`.
 * `host` (optional str): Default localhost The hostname of the redis master instance. Flask/Celery config is
-    REGION_CACHE_HOST.
+    `REGION_CACHE_HOST`.
 * `port` (int): Default 6379. The port of the redis master instance. Flask/Celery config is
-    REGION_CACHE_PORT.
+    `REGION_CACHE_PORT`.
 * `db` (int): Default 0. The db number to use on the redis master instance. Flask/Celery config is
-    REGION_CACHE_DB.
+    `REGION_CACHE_DB`.
 * `password` (optional int): The password to use for the redis master instance. Flask/Celery config is
-    REGION_CACHE_PASSWORD.
+    `REGION_CACHE_PASSWORD`.
 * `op_timeout` (optional number): Default = no timeout. A timeout in seconds after which an operation will
-    fail. Flask/Celery config is REGION_CACHE_OP_TIMEOUT.
+    fail. Flask/Celery config is `REGION_CACHE_OP_TIMEOUT`.
 * `reconnect_on_timeout` (optional bool): Default = False. Whether to close the connection and reconnect on
-    timeout. Flask/Celery config is REGION_CACHE_OP_TIMEOUT_RECONNECT.
+    timeout. Flask/Celery config is `REGION_CACHE_OP_TIMEOUT_RECONNECT`.
 * `reconnect_backoff` (optional int): Seconds that we should wait before trying to reconnect to the cache.
 * `raise_on_timeout` (optional bool): Default = False. If false, we catch the exception and return None for
     readonly operations.Otherwise raise redis.TimeoutError. Flask/Celery config is
-    REGION_CACHE_OP_TIMEOUT_RAISE.
+    `REGION_CACHE_OP_TIMEOUT_RAISE`.
 * `rr_host` (optional str): Default None. The host for a redis read-replica, if it exists. Flask/Celery
-    config is REGION_CACHE_RR_HOST.
-* `rr_port` (optional int): The port for a redis read-replica.  MUST be set explicitly if using a read-replica. Flask/Celery config is REGION_CACHE_RR_PORT.
+    config is `REGION_CACHE_RR_HOST`.
+* `rr_port` (optional int): The port for a redis read-replica.  MUST be set explicitly if using a read-replica. Flask/Celery config is `REGION_CACHE_RR_PORT`.
 * `rr_password` (str): The password for the redis read replica. Flask/Celery config is
-    REGION_CACHE_RR_PASSWORD.
-* `args`: Arguments to pass to StrictRedis. Flask/Celery config is REGION_CACHE_REDIS_ARGS.
-* `kwargs`: Extra options to pass to StrictRedis. Flask/Celery config is REGION_CACHE_REDIS_OPTIONS.
+    `REGION_CACHE_RR_PASSWORD`.
+* `args`: Arguments to pass to StrictRedis. Flask/Celery config is `REGION_CACHE_REDIS_ARGS`.
+* `kwargs`: Extra options to pass to StrictRedis. Flask/Celery config is `REGION_CACHE_REDIS_OPTIONS`.
 
 At its most polite, RegionCache will drop all connections as soon as it hits a timeout, flushing its connection pool and handing resources back to the Redis server. Then it will back off and use the local LRU cache for a predetermined time (`reconnect_backoff`) until it can connect to redis again.   
