@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About Jefferson Heard
+title: About Me
 permalink: /about/
 ---
 
