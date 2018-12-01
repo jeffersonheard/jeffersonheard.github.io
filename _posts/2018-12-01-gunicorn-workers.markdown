@@ -7,7 +7,7 @@ categories: python web
 
 *(Tl;dr - don't use the `gevent` worker type unless you know all the libraries your applications uses and how they implement their I/O.)* 
 
-I wish I could say that I was the one who found this, but it was our lead DevOps guy Andrew who did. For months, we've been plagued by random spikes in I/O wait times and occasional high-latency in serving API requests. The events would last for a few seconds, but if they hit at peak time, they would back up the servers until we did a rolling restart of workers. 
+I wish I could say that I was the one who found this, but it was our lead DevOps guy Andrew who did. For months, we've been plagued by random spikes in I/O wait times and occasional high-latency in serving API requests. The events would last for a few seconds, but if they hit at peak time they would back up the servers until we did a rolling restart of workers. 
 
 We had a few options:
 
@@ -16,11 +16,11 @@ We had a few options:
 3. We had contention for a resource
 4. There was something wrong with our setup
 
-Following the path down investigating these, the first one was fairly easy to eliminate, because one bad query wouldn't block others and there's no way it'd drive up mean response time as much as what we were seeing. Sure, they happen, but not as frequently or as severely as what we were seeing. 
+Following the path down investigating these the first one was fairly easy to eliminate, because one bad query wouldn't block others and there's no way it'd drive up mean response time as much as what we were seeing. Sure they happen, but not as frequently or as severely as what we were seeing. 
 
 I got stuck on the combination of having a memory leak and contention for a resource as "comorbid" problems. I have seen memory leaks before in Python (that is, dangling hard references to objects that prevent garbage collection). I've even seen them in Flask applications, usually to do with stuff in loaded Flask extensions. I even knew that one particular extension that I wrote in my early days at my job had some really ugly properties with regards to memory, so I resolved to clean that up. 
 
-The path of debugging memory usage in Python, however, is a hard path to tread. In the absence of production-level loads and a good clean copy of production data one can muck up beyond recognition consequence-free, finding leaks is a lot of guesswork. But I knew where to start. I reworked the offending extension and got the memory WAY down and made it nicer to program against in the process. Satisfied, I wrote a bunch of tickets to have people port their code over from the old extension to the new one.
+The path of debugging memory usage in Python is a hard path to tread. Without production-level loads and a good clean copy of production data one can mangle beyond recognition consequence-free, finding leaks is a lot of guesswork. But I knew where to start. I reworked the offending extension and got the memory WAY down and made it nicer to program against in the process. Satisfied, I wrote a bunch of tickets to have people port their code over from the old extension to the new one.
 
 But while people were porting things a new symptom cropped up: one of our monitoring packages was showing ridiculous times to access O(1) operations on Redis. There's just no way that 400ms is a reasonable time to check TTL, do a BLPOP, or call EXPIRE. At first it looked as if there was some reporting artifact in the monitoring system. Maybe something in the way we set that up. But it happened consistently, and even after reconfiguring the monitoring package a bit it didn't go away. 
 
