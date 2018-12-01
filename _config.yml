@@ -22,6 +22,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://jeffersonheard.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jeffersonheard
 github_username:  jeffersonheard
+linkedin_username: jeffersonheard
 
 # Build settings
 markdown: kramdown
@@ -29,8 +30,10 @@ theme: minima
 plugins:
   - jekyll-feed
 
-disqus: "jeffersonheard-github-io"
+disqus: 
+  shortname: "jeffersonheard-github-io"
 google_analytics: UA-68674847-2
+show_excerpts: true
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
