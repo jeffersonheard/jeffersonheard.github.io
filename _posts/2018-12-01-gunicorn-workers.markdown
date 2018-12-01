@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Pitfalls in Configuring GUnicorn for Production"
-date:   2018-11-24 10:58:41 -0500
+date:   2018-12-01 09:35:00 -0500
 categories: python web
 ---
 
