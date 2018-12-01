@@ -9,7 +9,7 @@ categories: python libraries
 
 It's been awhile since I've written anything in this blog, and I think it's time to change that. I've spent the last year and a half at [Teamworks](https://www.teamworks.com) as Principal Software Developer and Lead Architect for the Python backend.
 
-Our data is highly hierarchical. For caching, we use Elasticache, which is AWS's [redis](https://redis.io) offering. I wanted to build a cache on top of that which worked well with the hierarchy we have, was easy-to-use from Python, and I wanted to solve the cache contention problems we were starting to run into. The result is the [region_cache](https://github.com/jheard-tw/region_cache) library. `region_cache` is a nesting-doll style cache that supports:
+Our data is highly hierarchical. For caching we use Elasticache, which is AWS's [redis](https://redis.io) offering. I wanted to build a cache on top of that which worked well with the hierarchy we have, was easy-to-use from Python, and I wanted to solve the cache contention problems we were starting to run into. The result is the [region_cache](https://github.com/jheard-tw/region_cache) library. `region_cache` is a nesting-doll style cache that supports:
 
 * Read-replicas.
 * Read timeout.
@@ -47,11 +47,13 @@ len(r.region('xyz'))
 
 ### High-level, Pythonic use
 
-By default, the `pickle` serializer is used to store cache values. This is, of course, a security problem if anything can store data to your cache which is not a trusted part of your application. In that case, choose a different serializer. Serializers can be set on a per-region basis, so if you have certain regions that are untrusted, you could switch to json or yaml or something like that for serialization. Because the process of serialization and deserialization can be quite slow, the region_cache library keeps an LRU cache of deserialized values. As long as the serialized value is the same as the key stored in the LRU cache, the already deserialized value is used.
+By default, the `pickle` serializer is used to store cache values. This is of course a security problem if anything can store data to your cache which is not a trusted part of your application. It's also a problem if any other part of your service stack needs to read values from the cache. But serializers are pluggable in region_cache, and can be set on a per-region basis.
 
-The `Region` class is a dictionary-like object supporting all the usual dictionary interfaces efficiently.
+Because the process of serialization and deserialization can be quite slow for large objects, the region_cache library keeps an LRU cache of deserialized values. The region_cache is pessimistic about cache consistency, so it always checks the cache's value for the object, but as long as the serialized value is the same as the key stored in the local LRU cache, the already deserialized value is used rather than repeating the deserialization process.
 
-Additionally, it is also a context-manager. This allows you to write a series of values to the cache as a part of a single transaction like so: 
+The `Region` class is a dictionary-like object supporting all the usual Python dictionary interfaces efficiently.
+
+For bulk-writes to the cache, region_cache also acts as a context-manager. This switches writes to "pipeline" mode, allowing you to write a series of values to the cache as a part of a single transaction like so: 
 
 {% highlight python %}
 with region as r:
