@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Region Cache - Russian Doll caching in Redis with Python"
+comments: true
 date:   2018-11-24 10:58:41 -0500
 categories: python libraries
 ---
