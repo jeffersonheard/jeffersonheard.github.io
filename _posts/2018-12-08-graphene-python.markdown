@@ -6,7 +6,7 @@ date:   2018-12-08 13:54:00 -0500
 categories: python graphql
 ---
 
-[Graphene](https://graphene-python.org/) is probably the best library for creating GraphQL endpoints in Python.  It's actively developed. It has pretty complete helper libraries for [SQLAlchemy], [Django]'s ORM, and [MongoDB].  It's relatively easy to get something simple going. That said, Graphene's documentation leaves a *lot* to be desired. It's easy to get something simple going in GraphQL using their documentation, but getting something hardened, production ready, and capable is another story. 
+[Graphene](https://graphene-python.org/) is probably the best library for creating GraphQL endpoints in Python.  It's actively developed. It has pretty complete helper libraries for [SQLAlchemy](https://sqlalchemy.org), [Django](https://www.djangoproject.com/)'s ORM, and [MongoDB](https://mongodb.com).  It's relatively easy to get something simple going. That said, Graphene's documentation leaves a *lot* to be desired. It's easy to get something simple going in GraphQL using their documentation, but getting something hardened, production ready, and capable is another story. 
 
 If you're starting out in Graphene, go to their website and get through the tutorial. I'll not repeat it here. But if you're wondering about more advanced topics like:
 
@@ -15,7 +15,7 @@ If you're starting out in Graphene, go to their website and get through the tuto
 * Handling permissions and authentication.
 * Filtering of results, not just structure.
 
-then stay here. For this post I'll be using [Flask] and SQLAlchemy. Django is relatively simple to get going, and SQLAlchemy is a bit more involved, so I think it'll be more illustrative. 
+then stay here. For this post I'll be using [Flask](http://flask.pocoo.org/) and SQLAlchemy. Django is relatively simple to get going, and SQLAlchemy is a bit more involved, so I think it'll be more illustrative. 
 
 # Why GraphQL?
 
